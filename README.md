@@ -75,6 +75,14 @@ Supported time formats are `COMPACT` and `CLOCK`.
 
 ## Releases
 
-Tags use `v0.1.0+mc<version>`, for example `v0.1.0+mc1.21.11`.
+GitHub Releases are the source of truth for published jars. Built jars are not committed to the repository.
 
-The GitHub release workflow runs on matching tag pushes and can also be started manually with `workflow_dispatch` to create all supported 1.21.x tags and releases.
+Tags use `v<mod-version>+mc<minecraft-version>`, for example `v0.1.0+mc1.21.11`.
+
+Publish all supported NeoForge 1.21.x releases from GitHub Actions:
+
+```bash
+gh workflow run Release --ref main -f mod_version=0.1.0
+```
+
+The workflow builds every supported Minecraft version, uploads each jar as a workflow artifact, creates the matching tag when needed and publishes the jar as a GitHub Release asset.
