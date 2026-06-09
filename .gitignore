@@ -1,0 +1,15 @@
+.gradle/
+build/
+out/
+runs/
+run/
+logs/
+crash-reports/
+*.log
+*.hprof
+*.iml
+.idea/
+.vscode/
+common/build/
+neoforge/build/
+neoforge/runs/

@@ -1,0 +1,62 @@
+plugins {
+    id 'net.neoforged.moddev' version '2.0.141' apply false
+}
+
+subprojects {
+    apply plugin: 'java-library'
+
+    group = mod_group_id
+    version = mod_version
+
+    java {
+        toolchain {
+            languageVersion = JavaLanguageVersion.of(21)
+        }
+        withSourcesJar()
+    }
+
+    sourceSets {
+        integrationTest {
+            java.srcDir 'src/integrationTest/java'
+            resources.srcDir 'src/integrationTest/resources'
+            compileClasspath += sourceSets.main.output + configurations.testRuntimeClasspath
+            runtimeClasspath += output + compileClasspath
+        }
+    }
+
+    configurations {
+        integrationTestImplementation.extendsFrom testImplementation
+        integrationTestRuntimeOnly.extendsFrom testRuntimeOnly
+    }
+
+    dependencies {
+        testImplementation platform('org.junit:junit-bom:6.1.0')
+        testImplementation 'org.junit.jupiter:junit-jupiter'
+        testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+        integrationTestImplementation platform('org.junit:junit-bom:6.1.0')
+        integrationTestImplementation 'org.junit.jupiter:junit-jupiter'
+        integrationTestRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    }
+
+    tasks.withType(JavaCompile).configureEach {
+        options.encoding = 'UTF-8'
+        options.release = 21
+    }
+
+    tasks.withType(Test).configureEach {
+        useJUnitPlatform()
+    }
+
+    tasks.register('integrationTest', Test) {
+        description = 'Runs integration tests.'
+        group = 'verification'
+        testClassesDirs = sourceSets.integrationTest.output.classesDirs
+        classpath = sourceSets.integrationTest.runtimeClasspath
+        shouldRunAfter tasks.named('test')
+        useJUnitPlatform()
+    }
+
+    tasks.named('check') {
+        dependsOn tasks.named('integrationTest')
+    }
+}
