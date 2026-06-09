@@ -2,7 +2,7 @@
 
 APP_HOME=$(cd "${0%/*}" >/dev/null 2>&1 && pwd -P)
 CLASSPATH=$APP_HOME/gradle/wrapper/gradle-wrapper.jar
-DEFAULT_JVM_OPTS='"-Xmx64m" "-Xms64m"'
+DEFAULT_JVM_OPTS="-Xmx64m -Xms64m"
 
 if [ -n "$JAVA_HOME" ]; then
     JAVACMD=$JAVA_HOME/bin/java
