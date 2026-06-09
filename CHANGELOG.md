@@ -8,3 +8,4 @@
 - Adds English and Brazilian Portuguese translations.
 - Adds unit and integration tests.
 - Adds GitHub Actions CI and release workflows.
+- Adds release matrix setup for stable NeoForge Minecraft 1.21.x targets.

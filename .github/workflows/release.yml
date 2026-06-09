@@ -3,33 +3,124 @@ name: Release
 on:
   push:
     tags:
-      - v*
+      - v*+mc*
+  workflow_dispatch:
 
 permissions:
   contents: write
 
+env:
+  MOD_VERSION: 0.1.0
+
 jobs:
   release:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - minecraft: "1.21"
+            minecraft_range: "[1.21,1.21.1)"
+            neoforge: "21.0.167"
+            neoforge_range: "[21.0.167,21.1)"
+            neoform: "1.21-20240613.152323"
+            tag: "v0.1.0+mc1.21"
+          - minecraft: "1.21.1"
+            minecraft_range: "[1.21.1,1.21.2)"
+            neoforge: "21.1.233"
+            neoforge_range: "[21.1.233,21.2)"
+            neoform: "1.21.1-20240808.144430"
+            tag: "v0.1.0+mc1.21.1"
+          - minecraft: "1.21.3"
+            minecraft_range: "[1.21.3,1.21.4)"
+            neoforge: "21.3.96"
+            neoforge_range: "[21.3.96,21.4)"
+            neoform: "1.21.3-20241023.131943"
+            tag: "v0.1.0+mc1.21.3"
+          - minecraft: "1.21.4"
+            minecraft_range: "[1.21.4,1.21.5)"
+            neoforge: "21.4.157"
+            neoforge_range: "[21.4.157,21.5)"
+            neoform: "1.21.4-20241203.161809"
+            tag: "v0.1.0+mc1.21.4"
+          - minecraft: "1.21.5"
+            minecraft_range: "[1.21.5,1.21.6)"
+            neoforge: "21.5.97"
+            neoforge_range: "[21.5.97,21.6)"
+            neoform: "1.21.5-20250325.162830"
+            tag: "v0.1.0+mc1.21.5"
+          - minecraft: "1.21.8"
+            minecraft_range: "[1.21.8,1.21.9)"
+            neoforge: "21.8.53"
+            neoforge_range: "[21.8.53,21.9)"
+            neoform: "1.21.8-20250717.133445"
+            tag: "v0.1.0+mc1.21.8"
+          - minecraft: "1.21.10"
+            minecraft_range: "[1.21.10,1.21.11)"
+            neoforge: "21.10.64"
+            neoforge_range: "[21.10.64,21.11)"
+            neoform: "1.21.10-20251010.172816"
+            tag: "v0.1.0+mc1.21.10"
+          - minecraft: "1.21.11"
+            minecraft_range: "[1.21.11,1.21.12)"
+            neoforge: "21.11.42"
+            neoforge_range: "[21.11.42,21.12)"
+            neoform: "1.21.11-20251209.172050"
+            tag: "v0.1.0+mc1.21.11"
     steps:
       - name: Checkout
+        if: github.event_name == 'workflow_dispatch' || github.ref_name == matrix.tag
         uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
 
       - name: Set up Java
+        if: github.event_name == 'workflow_dispatch' || github.ref_name == matrix.tag
         uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: 21
 
       - name: Set up Gradle
+        if: github.event_name == 'workflow_dispatch' || github.ref_name == matrix.tag
         uses: gradle/actions/setup-gradle@v6
         with:
           cache-provider: basic
 
       - name: Build
-        run: bash ./gradlew check build
+        if: github.event_name == 'workflow_dispatch' || github.ref_name == matrix.tag
+        run: >
+          bash ./gradlew clean check build
+          -Pminecraft_version=${{ matrix.minecraft }}
+          -Pminecraft_version_range='${{ matrix.minecraft_range }}'
+          -Pneo_version=${{ matrix.neoforge }}
+          -Pneo_version_range='${{ matrix.neoforge_range }}'
+          -Pneoform_version=${{ matrix.neoform }}
+          -Pmod_version=${{ env.MOD_VERSION }}
+
+      - name: Create tag
+        if: github.event_name == 'workflow_dispatch' || github.ref_name == matrix.tag
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            if git rev-parse "${{ matrix.tag }}" >/dev/null 2>&1; then
+              echo "Tag ${{ matrix.tag }} already exists"
+            else
+              git tag "${{ matrix.tag }}" "$GITHUB_SHA"
+              git push origin "${{ matrix.tag }}"
+            fi
+          fi
 
       - name: Publish GitHub release
+        if: github.event_name == 'workflow_dispatch' || github.ref_name == matrix.tag
         uses: softprops/action-gh-release@v3
         with:
+          tag_name: ${{ matrix.tag }}
+          name: What days is it? ${{ env.MOD_VERSION }} for Minecraft ${{ matrix.minecraft }}
           files: neoforge/build/libs/*.jar
+          body: |
+            NeoForge build for Minecraft ${{ matrix.minecraft }}.
+
+            NeoForge: ${{ matrix.neoforge }}
+            NeoForm: ${{ matrix.neoform }}

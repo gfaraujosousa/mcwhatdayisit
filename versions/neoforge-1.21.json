@@ -1,0 +1,66 @@
+[
+  {
+    "minecraft": "1.21",
+    "minecraftRange": "[1.21,1.21.1)",
+    "neoForge": "21.0.167",
+    "neoForgeRange": "[21.0.167,21.1)",
+    "neoForm": "1.21-20240613.152323",
+    "tag": "v0.1.0+mc1.21"
+  },
+  {
+    "minecraft": "1.21.1",
+    "minecraftRange": "[1.21.1,1.21.2)",
+    "neoForge": "21.1.233",
+    "neoForgeRange": "[21.1.233,21.2)",
+    "neoForm": "1.21.1-20240808.144430",
+    "tag": "v0.1.0+mc1.21.1"
+  },
+  {
+    "minecraft": "1.21.3",
+    "minecraftRange": "[1.21.3,1.21.4)",
+    "neoForge": "21.3.96",
+    "neoForgeRange": "[21.3.96,21.4)",
+    "neoForm": "1.21.3-20241023.131943",
+    "tag": "v0.1.0+mc1.21.3"
+  },
+  {
+    "minecraft": "1.21.4",
+    "minecraftRange": "[1.21.4,1.21.5)",
+    "neoForge": "21.4.157",
+    "neoForgeRange": "[21.4.157,21.5)",
+    "neoForm": "1.21.4-20241203.161809",
+    "tag": "v0.1.0+mc1.21.4"
+  },
+  {
+    "minecraft": "1.21.5",
+    "minecraftRange": "[1.21.5,1.21.6)",
+    "neoForge": "21.5.97",
+    "neoForgeRange": "[21.5.97,21.6)",
+    "neoForm": "1.21.5-20250325.162830",
+    "tag": "v0.1.0+mc1.21.5"
+  },
+  {
+    "minecraft": "1.21.8",
+    "minecraftRange": "[1.21.8,1.21.9)",
+    "neoForge": "21.8.53",
+    "neoForgeRange": "[21.8.53,21.9)",
+    "neoForm": "1.21.8-20250717.133445",
+    "tag": "v0.1.0+mc1.21.8"
+  },
+  {
+    "minecraft": "1.21.10",
+    "minecraftRange": "[1.21.10,1.21.11)",
+    "neoForge": "21.10.64",
+    "neoForgeRange": "[21.10.64,21.11)",
+    "neoForm": "1.21.10-20251010.172816",
+    "tag": "v0.1.0+mc1.21.10"
+  },
+  {
+    "minecraft": "1.21.11",
+    "minecraftRange": "[1.21.11,1.21.12)",
+    "neoForge": "21.11.42",
+    "neoForgeRange": "[21.11.42,21.12)",
+    "neoForm": "1.21.11-20251209.172050",
+    "tag": "v0.1.0+mc1.21.11"
+  }
+]

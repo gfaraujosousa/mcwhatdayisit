@@ -12,6 +12,19 @@ Client-side Minecraft HUD mod for NeoForge that shows the current world day and 
 
 Fabric and Forge are planned after the NeoForge MVP. The project already separates common HUD rules from the NeoForge adapter.
 
+## Supported NeoForge Versions
+
+The release workflow builds the stable NeoForge patches listed in `versions/neoforge-1.21.json`:
+
+- Minecraft `1.21`
+- Minecraft `1.21.1`
+- Minecraft `1.21.3`
+- Minecraft `1.21.4`
+- Minecraft `1.21.5`
+- Minecraft `1.21.8`
+- Minecraft `1.21.10`
+- Minecraft `1.21.11`
+
 ## Features
 
 - Current world day based on world day time.
@@ -27,6 +40,12 @@ bash ./gradlew check build
 ```
 
 The NeoForge jar is produced in `neoforge/build/libs`.
+
+Build every supported NeoForge 1.21.x target locally:
+
+```powershell
+.\scripts\build-neoforge-1.21.ps1
+```
 
 ## Run Client
 
@@ -53,3 +72,9 @@ Client config keys:
 Supported anchors are `TOP_LEFT`, `TOP_RIGHT`, `BOTTOM_LEFT` and `BOTTOM_RIGHT`.
 
 Supported time formats are `COMPACT` and `CLOCK`.
+
+## Releases
+
+Tags use `v0.1.0+mc<version>`, for example `v0.1.0+mc1.21.11`.
+
+The GitHub release workflow runs on matching tag pushes and can also be started manually with `workflow_dispatch` to create all supported 1.21.x tags and releases.

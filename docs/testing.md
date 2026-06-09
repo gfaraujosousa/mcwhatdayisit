@@ -18,6 +18,12 @@ Run integration tests only:
 bash ./gradlew integrationTest
 ```
 
+Run the full supported NeoForge 1.21.x build matrix:
+
+```powershell
+.\scripts\build-neoforge-1.21.ps1
+```
+
 Manual NeoForge smoke test:
 
 ```bash

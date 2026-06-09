@@ -15,7 +15,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
-import org.joml.Matrix3x2fStack;
 
 public final class NeoForgeHudRenderer {
     private static final int MINIMUM_PANEL_WIDTH = 96;
@@ -83,13 +82,13 @@ public final class NeoForgeHudRenderer {
                 configuration.offsetX(),
                 configuration.offsetY()
         );
-        Matrix3x2fStack pose = guiGraphics.pose();
+        NeoForgeGuiPose pose = new NeoForgeGuiPose(guiGraphics.pose());
 
-        pose.pushMatrix();
+        pose.push();
         pose.translate(position.x(), position.y());
-        pose.scale((float) configuration.scale(), (float) configuration.scale());
+        pose.scale(configuration.scale());
         drawPanel(guiGraphics, font, lines, panelWidth, panelHeight, dayTime, configuration.opacity());
-        pose.popMatrix();
+        pose.pop();
     }
 
     private RenderableHudLine renderableLine(HudLine line) {
